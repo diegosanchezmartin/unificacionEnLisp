@@ -45,6 +45,36 @@
 )
 
 (defun prueba (e1 e2)
+
+  (if (eq (atom e1) 'T) ;Miramos si e1 es átomo
+    (unless (eq e1 e2)
+      (if (eq (esVariable e1) 'T)
+        (if (aparece e1 e2)
+          (princ "error")
+          (princ "E2 / E1")
+        )
+        (if (esVariable e2)
+          (princ "Aquí estamos")
+          ;(devolver e1/e2)
+          NIL
+        )
+      )
+    )
+    (if (eq (atom e2) 'T) ;Si e1 no es átomo, miramos si lo es e2
+      (unless (eq e2 e1)
+        (if (eq (esVariable e1) 'T)
+          (princ "Aquí estamos 1")
+          ;(aparece e1 e2)
+          (if (esVariable e2)
+            (princ "Aquí estamos")
+            ;(devolver e1/e2)
+            NIL
+          )
+        )
+      )
+    ) ;Si ninguno de los dos es, el bucle saldrá
+  )
+
   (setq f1 (first e1))
   (setq t1 (rest e1))
   (setq f2 (first e2))
@@ -53,16 +83,14 @@
   (write t1)
   (write f2)
   (write t2)
-  (setq z1 (prueba (f1 f2)))
+  (setq z1 (prueba f1 f2))
 
-  (unless (eq e1 e2)
-    (if (esVariable e1)
-      (bucle )
-      (if (esVariable e2)
-        (devolver )
-        (devolverFallo)
-      )
-    )
+
+)
+
+(defun aparece (dato lista)
+  (unless (atom lista) ;Esto es básicamente porque si ponemos (unificar 1 2) nos va a saltar aquí y como el 2 es átomo la función member va a devolver error
+    (member dato lista)
   )
 )
 
@@ -70,4 +98,20 @@
   (setq dato '2)
   (princ "El nuevo valor de E2 en prueba2 es: ")
   (write dato)
+)
+
+(defun esVariable(dato)
+  (if (eq (listp dato) 'T) ;Primero ver si es lista o átomo
+    (if (eq (first dato) '?) ;Si lista, mirar si es constante o variable
+      NIL
+      T
+    )
+    T
+  )
+)
+
+(defun prueb(e1 e2)
+  (unless (eq e1 e2)
+    (princ "Datos distintos")
+  )
 )
