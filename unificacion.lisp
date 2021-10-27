@@ -31,14 +31,6 @@
   (bucle e1 e2) ; Si e2 es átomo vamos a continuar
 )
 
-(defun continuar(e1 e2) ; Esto sería el trozo a partir de la línea 12
-  (setq f1 (first e1))
-  (setq t1 (rest e1))
-  (setq f2 (first e2))
-  (setq t2 (rest e2))
-  (setq z1 (unificacion (f1 f2)))
-)
-
 (defun prueba (e1 e2)
 
   (if (eq (atomoUnificacion e1) 'T) ;Miramos si e1 es átomo
