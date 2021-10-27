@@ -32,7 +32,6 @@
 )
 
 (defun prueba (e1 e2)
-
   (if (eq (atomoUnificacion e1) 'T) ;Miramos si e1 es átomo
     (unless (equalp e1 e2)
       (if (eq (esVariable e1) 'T)
