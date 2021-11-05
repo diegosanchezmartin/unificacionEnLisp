@@ -28,34 +28,37 @@
 )
 
 (defun unificacion(e1 e2)
-  (if (eq (atomoUnificacion e1) 'T) ;Miramos si e1 es átomo
-    (unless (equalp e1 e2) ;Importante aquí saber que si son iguales abajo devuelve un NIL donde z1 y z2
-      (if (eq (esVariable e1) 'T)
-        (if (aparece e1 e2)
-          (princ "error")
-          (imprimir e2 e1)
-        )
-        (if (esVariable e2)
-          (imprimir e1 e2)
-          (princ "FALLO")
-        )
-      )
-    )
-    (if (eq (atomoUnificacion e2) 'T) ;Si e1 no es átomo, miramos si lo es e2
-      (unless (equalp e2 e1)
-        (if (eq (esVariable e2) 'T)
-          (if (aparece e2 e1)
+  (if (eq (or (null e1) (null e2)) 'NIL)
+    (if (eq (atomoUnificacion e1) 'T) ;Miramos si e1 es átomo
+      (unless (equalp e1 e2) ;Importante aquí saber que si son iguales abajo devuelve un NIL donde z1 y z2
+        (if (eq (esVariable e1) 'T)
+          (if (aparece e1 e2)
             (princ "error")
-            (imprimir e1 e2)
-          )
-          (if (esVariable e1)
             (imprimir e2 e1)
+          )
+          (if (esVariable e2)
+            (imprimir e1 e2)
             (princ "FALLO")
           )
         )
       )
-      (continuacion e1 e2)
-    ) ;Si ninguno de los dos es, el bucle saldrá
+      (if (eq (atomoUnificacion e2) 'T) ;Si e1 no es átomo, miramos si lo es e2
+        (unless (equalp e2 e1)
+          (if (eq (esVariable e2) 'T)
+            (if (aparece e2 e1)
+              (princ "error")
+              (imprimir e1 e2)
+            )
+            (if (esVariable e1)
+              (imprimir e2 e1)
+              (princ "FALLO")
+            )
+          )
+        )
+        (continuacion e1 e2)
+      ) ;Si ninguno de los dos es, el bucle saldrá
+    )
+    NIL
   )
 )
 
@@ -88,19 +91,18 @@
   (write g2)
   (format t "~%")
 
-  (unless (and (eq g1 'NIL) (eq g2 'NIL)) ;Si uno de los dos no es NIL sigue calculando, si son los dos NIL para
-    ; IMPORTANTE MIRAR ESTO MAÑANA
-    (setq z2 (unificacion g1 g2))
-    (if (eq z2 'T) ;Aquí lo mismo que arriba
-      (princ "FALLO Z2")
-    )
+  (setq z2 (unificacion g1 g2))
+  (if (eq z2 'T) ;Aquí lo mismo que arriba
+    (princ "FALLO Z2")
   )
   ;Ponemos unless porque con un if, habría que meter un return 0 por ejemplo dentro del if para salir del todo y en lisp es imposible
   ;(princ "Aqui debemos parar ")
   ;(format t "~%")
 
   ;(set composicion (componer z1 z2))
+  ;(componer z1 z2)
   ;(write composicion)
+  (imprimir z1 z2)
 )
 
 (defun aplicar (expresion dato)
@@ -126,12 +128,7 @@
 )
 
 (defun componer (dato1 dato2)
-
-)
-
-(defun pruebaNuevo (palabra)
-  (setq prueba (first (last palabra)))
-  (write prueba)
+  (list dato1 '- dato2)
 )
 
 (defun atomoUnificacion (dato)
