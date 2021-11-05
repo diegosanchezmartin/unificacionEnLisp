@@ -28,9 +28,8 @@
 )
 
 (defun unificacion(e1 e2)
-
   (if (eq (atomoUnificacion e1) 'T) ;Miramos si e1 es átomo
-    (unless (equalp e1 e2)
+    (unless (equalp e1 e2) ;Importante aquí saber que si son iguales abajo devuelve un NIL donde z1 y z2
       (if (eq (esVariable e1) 'T)
         (if (aparece e1 e2)
           (princ "error")
@@ -75,7 +74,64 @@
   (format t " ")
   (format t "~%")
   (setq z1 (unificacion f1 f2))
-  (setq z2 (unificacion t1 t2))
+  (write z1)
+  (format t "~%")
+  (if (eq z1 'T) ;Hay que poner arriba que si da error devuelva T porque el unless devuelve NIL siempre
+    (princ "FALLO Z1")
+  )
+  (setq g1 (aplicar z1 t1))
+  (princ "G1: ")
+  (write g1)
+  (format t "~%")
+  (setq g2 (aplicar z1 t2))
+  (princ "G2: ")
+  (write g2)
+  (format t "~%")
+
+  (unless (and (eq g1 'NIL) (eq g2 'NIL)) ;Si uno de los dos no es NIL sigue calculando, si son los dos NIL para
+    ; IMPORTANTE MIRAR ESTO MAÑANA
+    (setq z2 (unificacion g1 g2))
+    (if (eq z2 'T) ;Aquí lo mismo que arriba
+      (princ "FALLO Z2")
+    )
+  )
+  ;Ponemos unless porque con un if, habría que meter un return 0 por ejemplo dentro del if para salir del todo y en lisp es imposible
+  ;(princ "Aqui debemos parar ")
+  ;(format t "~%")
+
+  ;(set composicion (componer z1 z2))
+  ;(write composicion)
+)
+
+(defun aplicar (expresion dato)
+  (unless (eq expresion 'NIL) ;Si la expresion es NIL es que arriba se ha devuelto: NADA
+
+    ;(setq datoExpresion (last expresion))
+    ;(write datoExpresion)
+    ;(format t "~%")
+    ;(write dato)
+    ;(format t "~%")
+    ;(setq prueba1 (atomoUnificacion dato))
+    ;(write prueba1)
+    ;(format t "~%")
+
+    (if (eq (atomoUnificacion dato) 'T)
+      (if (equalp dato datoExpresion) ;equalp porque tienen que ser iguales conceptualmente
+        (first expresion)
+        dato
+      )
+    )
+  )
+  dato
+)
+
+(defun componer (dato1 dato2)
+
+)
+
+(defun pruebaNuevo (palabra)
+  (setq prueba (first (last palabra)))
+  (write prueba)
 )
 
 (defun atomoUnificacion (dato)
