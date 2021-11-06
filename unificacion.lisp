@@ -2,31 +2,6 @@
 ; Fernando Olivares Naranjo
 ; © 2021: All Rights Reserved
 
-(defun esAtomo(dato)
-  (if (eq (listp dato) 'T) ;Primero ver si es lista o átomo
-    (if (eq (first dato) '?) ;Si lista, mirar si es constante o variable
-      (princ "Constante introducida")
-      (princ "Variable introducida")
-    )
-    (princ "Variable introducida") ;Sino entonces es variable seguro
-  )
-)
-
-(defun intercambiar(e1 e2) ; También se puede hacer (bucle e2 e1) directamente
-  (setq aux e1)
-  (setq e1 e2)
-  (setq e2 aux)
-  (bucle e1 e2) ; Si e2 es átomo vamos a continuar
-)
-
-(defun continuar(e1 e2) ; Esto sería el trozo a partir de la línea 12
-  (setq f1 (first e1))
-  (setq t1 (rest e1))
-  (setq f2 (first e2))
-  (setq t2 (rest e2))
-  (setq z1 (unificacion (f1 f2)))
-)
-
 (defun unificacion(e1 e2)
   (if (eq (or (null e1) (null e2)) 'NIL)
     (if (eq (atomoUnificacion e1) 'T) ;Miramos si e1 es átomo
@@ -92,6 +67,8 @@
   (format t "~%")
 
   (setq z2 (unificacion g1 g2))
+  (write z2)
+  (format t "~%")
   (if (eq z2 'T) ;Aquí lo mismo que arriba
     (princ "FALLO Z2")
   )
@@ -99,10 +76,7 @@
   ;(princ "Aqui debemos parar ")
   ;(format t "~%")
 
-  ;(set composicion (componer z1 z2))
-  ;(componer z1 z2)
-  ;(write composicion)
-  (imprimir z1 z2)
+  (componer z1 z2)
 )
 
 (defun aplicar (expresion dato)
