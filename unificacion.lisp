@@ -2,6 +2,11 @@
 ; Fernando Olivares Naranjo
 ; © 2021: All Rights Reserved
 
+(defun main(e1 e2)
+  (setq listaFinal NIL)
+  (unificacion e1 e2)
+)
+
 (defun unificacion(e1 e2)
   (if (eq (or (null e1) (null e2)) 'NIL)
     (if (eq (atomoUnificacion e1) 'T) ;Miramos si e1 es átomo
@@ -54,6 +59,14 @@
   (setq z1 (unificacion f1 f2))
   (write z1)
   (format t "~%")
+  (if (eq listaFinal 'NIL) ;En caso de que listaFinal
+    (unless (eq z1 'NIL) ;
+      (setq listaFinal z1) ;
+    )
+    (unless (eq z1 'NIL)
+      (setq listaFinal (list listaFinal z1))
+    )
+  )
   (if (eq z1 'T) ;Hay que poner arriba que si da error devuelva T porque el unless devuelve NIL siempre
     (princ "FALLO Z1")
   )
@@ -76,7 +89,13 @@
   ;(princ "Aqui debemos parar ")
   ;(format t "~%")
 
-  (componer z1 z2)
+  (write listaFinal)
+  (format t "~%")
+  ;(write z1)
+  ;(format t "~%")
+  ;(write z2)
+  ;(format t "~%")
+  ;(componer z1 z2)
 )
 
 (defun aplicar (expresion dato)
