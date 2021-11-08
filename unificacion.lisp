@@ -2,9 +2,10 @@
 ; Fernando Olivares Naranjo
 ; © 2021: All Rights Reserved
 
-(defun main(e1 e2)
+(defun unificar(e1 e2)
   (setq listaFinal NIL)
   (unificacion e1 e2)
+  (write listaFinal)
 )
 
 (defun unificacion(e1 e2)
@@ -89,6 +90,14 @@
   (setq z2 (unificacion g1 g2))
   (write z2)
   (format t "~%")
+  (if (eq listaFinal 'NIL) ;En caso de que listaFinal
+    (unless (eq z2 'NIL) ;
+      (setq listaFinal z2) ;
+    )
+    (unless (eq z2 'NIL)
+      (setq listaFinal (list listaFinal z2))
+    )
+  )
   (if (eq z2 'T) ;Aquí lo mismo que arriba
     (princ "FALLO Z2")
   )
@@ -127,15 +136,6 @@
   dato
 )
 
-(defun prueba (lista valor)
-  (setq valorSustitucion (sustituir lista valor))
-  (unless (eq valorSustitucion 'NIL)
-    (setq valor valorSustitucion)
-  )
-  (write valor)
-  (format t "~%")
-)
-
 (defun sustituir (expresion valorAcomprobar bandera)
   (unless (null expresion)
     (setq valor (first (last expresion)))
@@ -155,28 +155,16 @@
           )
           (list (first expresion) (sustituir expresion (rest valorAcomprobar) 1))
         )
-        ;(list (first expresion) (rest valorAcomprobar))
-        ;(if (eq (esVariable (first expresion)) 'T)
-          ;(first expresion)
-          ;(first (first expresion))
-        ;)
       )
-      (if (= (length valorAcomprobar) 1)
-        valorAcomprobar ;(first valorAcomprobar)
-        valorAcomprobar
+      (if (eq (listp (first valorAcomprobar)) 'T)
+        (list (first (first valorAcomprobar)) (sustituir expresion (rest (first valorAcomprobar)) 1))
+        (if (eq (esVariable valorAcomprobar) 'T)
+          (first valorAcomprobar)
+          (first valorAcomprobar)
+        )
       )
     )
   )
-)
-
-(defun crearLista(variableSustituida restoLista)
-
-)
-
-(defun prueba (lista)
-  (setq listaDevuelta NIL)
-  (setq lista1 (devolverResto lista))
-  (write lista1)
 )
 
 (defun devolverResto (lista)
