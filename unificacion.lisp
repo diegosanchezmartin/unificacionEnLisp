@@ -48,18 +48,7 @@
   (setq t1 (rest e1))
   (setq f2 (first e2))
   (setq t2 (rest e2))
-  (write f1)
-  (format t " ")
-  (write t1)
-  (format t " - ")
-  (write f2)
-  (format t " ")
-  (write t2)
-  (format t " ")
-  (format t "~%")
   (setq z1 (unificacion f1 f2))
-  (write z1)
-  (format t "~%")
   (if (eq listaFinal 'NIL) ;En caso de que listaFinal
     (unless (eq z1 'NIL) ;
       (setq listaFinal z1) ;
@@ -75,21 +64,11 @@
     (setq g1 t1)
     (setq g1 (sustituir z1 t1 0))
   )
-  (princ "G1: ")
-  (write g1)
-  (format t "~%")
-
   (if (eq z1 'NIL)
     (setq g2 t2)
     (setq g2 (sustituir z1 t2 0))
   )
-  (princ "G2: ")
-  (write g2)
-  (format t "~%")
-
   (setq z2 (unificacion g1 g2))
-  (write z2)
-  (format t "~%")
   (if (eq listaFinal 'NIL) ;En caso de que listaFinal
     (unless (eq z2 'NIL) ;
       (setq listaFinal z2) ;
@@ -101,51 +80,11 @@
   (if (eq z2 'T) ;Aquí lo mismo que arriba
     (princ "FALLO Z2")
   )
-  ;Ponemos unless porque con un if, habría que meter un return 0 por ejemplo dentro del if para salir del todo y en lisp es imposible
-  ;(princ "Aqui debemos parar ")
-  ;(format t "~%")
-
-  (write listaFinal)
-  (format t "~%")
-  ;(write z1)
-  ;(format t "~%")
-  ;(write z2)
-  ;(format t "~%")
-  ;(componer z1 z2)
-)
-
-(defun aplicar (expresion dato)
-  (unless (eq expresion 'NIL) ;Si la expresion es NIL es que arriba se ha devuelto: NADA
-
-    ;(setq datoExpresion (last expresion))
-    ;(write datoExpresion)
-    ;(format t "~%")
-    ;(write dato)
-    ;(format t "~%")
-    ;(setq prueba1 (atomoUnificacion dato))
-    ;(write prueba1)
-    ;(format t "~%")
-
-    (if (eq (atomoUnificacion dato) 'T)
-      (if (equalp dato datoExpresion) ;equalp porque tienen que ser iguales conceptualmente
-        (first expresion)
-        dato
-      )
-    )
-  )
-  dato
 )
 
 (defun sustituir (expresion valorAcomprobar bandera)
   (unless (null expresion)
     (setq valor (first (last expresion)))
-    (write valor)
-    (format t "~%")
-    (if (eq (esVariable valorAcomprobar) 'T)
-      (write valorAcomprobar)
-      (write (first valorAcomprobar))
-    )
-    (format t "~%")
     (if (equalp valor (first valorAcomprobar))
       (if (eq (atom (first expresion)) 'T)
         (if (eq (length valorAcomprobar) 1)
@@ -164,20 +103,6 @@
         )
       )
     )
-  )
-)
-
-(defun devolverResto (lista)
-  (unless (= (length lista) 1)
-    (if (eq (null listaDevuelta) 'T)
-      (list first lista)
-      (list listaDevuelta (first lista))
-    )
-    (devolverResto (rest lista))
-  )
-  (if (eq listaDevuelta 'NIL)
-    (list first lista)
-    (list listaDevuelta (first lista))
   )
 )
 
