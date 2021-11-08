@@ -5,7 +5,9 @@
 (defun unificar(e1 e2)
   (setq listaFinal NIL)
   (unificacion e1 e2)
-  (write listaFinal)
+  (unless (eq (null listaFinal) 'T)
+    (write listaFinal)
+  )
 )
 
 (defun unificacion(e1 e2)
@@ -14,7 +16,7 @@
       (unless (equalp e1 e2) ;Importante aquí saber que si son iguales abajo devuelve un NIL donde z1 y z2
         (if (eq (esVariable e1) 'T)
           (if (aparece e1 e2)
-            (princ "error")
+            (princ "FALLO")
             (list e2 '/ e1)
           )
           (if (esVariable e2)
@@ -27,7 +29,7 @@
         (unless (equalp e2 e1)
           (if (eq (esVariable e2) 'T)
             (if (aparece e2 e1)
-              (princ "error")
+              (princ "FALLO")
               (list e1 '/ e2)
             )
             (if (esVariable e1)
@@ -85,7 +87,7 @@
 )
 
 (defun sustituir (expresion valorAcomprobar bandera)
-  (unless (null expresion)
+  (unless (eq (equalp expresion "FALLO") 'T)
     (setq valor (first (last expresion)))
     (if (equalp valor (first valorAcomprobar))
       (if (eq (atom (first expresion)) 'T)
