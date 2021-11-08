@@ -64,14 +64,16 @@
     (setq g1 t1)
     (setq g1 (sustituir z1 t1 0))
   )
+
   (if (eq z1 'NIL)
     (setq g2 t2)
     (setq g2 (sustituir z1 t2 0))
   )
+
   (setq z2 (unificacion g1 g2))
   (if (eq listaFinal 'NIL) ;En caso de que listaFinal
-    (unless (eq z2 'NIL) ;
-      (setq listaFinal z2) ;
+    (unless (eq z2 'NIL)
+      (setq listaFinal z2)
     )
     (unless (eq z2 'NIL)
       (setq listaFinal (list listaFinal z2))
@@ -96,11 +98,11 @@
         )
       )
       (if (eq (listp (first valorAcomprobar)) 'T)
-        (list (first (first valorAcomprobar)) (sustituir expresion (rest (first valorAcomprobar)) 1))
-        (if (eq (esVariable valorAcomprobar) 'T)
+        (if (eq (rest valorAcomprobar) 'NIL)
           (first valorAcomprobar)
-          (first valorAcomprobar)
+          (list (first valorAcomprobar) (sustituir expresion (rest valorAcomprobar) 1))
         )
+        valorAcomprobar
       )
     )
   )
